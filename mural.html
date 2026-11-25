@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mural da Marca - Cazinha</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏡</text></svg>">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fraunces, Poppins, Comfortaa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bordo: '#8C1D24',
+                        vibrante: '#D92B2B',
+                        pink: '#E63988',
+                        rosa: '#F265A1',
+                        bege: '#F7F2E7',
+                        begeDark: '#EFE8D8',
+                        amarelo: '#FFCA3A',
+                        verde: '#8AC926',
+                        azul: '#19B5FE'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        title: ['Fraunces', 'serif'],
+                        accent: ['Comfortaa', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F7F2E7;
+            font-family: 'Poppins', sans-serif;
+            padding-bottom: 80px;
+        }
+        h1, h2, h3, h4, .font-title {
+            font-family: 'Fraunces', serif;
+        }
+        .font-accent {
+            font-family: 'Comfortaa', cursive;
+        }
+        @media (min-width: 768px) {
+            body { padding-bottom: 0; }
+        }
+        .line-through-task {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="text-gray-800 min-h-screen flex flex-col md:flex-row">
+
+    <!-- Barra Lateral (Desktop) -->
+    <aside class="hidden md:flex flex-col w-64 bg-white border-r border-begeDark p-6 flex-shrink-0 min-h-screen sticky top-0 h-screen overflow-y-auto">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="text-2xl">🕯️</div>
+            <div>
+                <h1 class="font-bold text-lg text-bordo leading-tight font-title">Planner Cazinha</h1>
+                <p class="text-xs text-rosa font-semibold font-accent">Social Media & Estratégia</p>
+            </div>
+        </div>
+
+        <!-- Status do Firebase -->
+        <div class="mb-6 px-3 py-2 rounded-lg bg-green-50 text-green-700 text-xs flex items-center gap-2 border border-green-200 font-accent">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span>Nuvem Ativa (Firebase)</span>
+        </div>
+
+        <nav class="space-y-1.5 flex-1">
+            <a href="index.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Planejador (Kanban)
+            </a>
+            <a href="pedidos.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                Pedidos & Encomendas
+            </a>
+            <a href="mural.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-bordo bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                Mural da Marca
+            </a>
+            <a href="estrategia.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
+                Estratégia & SEO
+            </a>
+            <a href="metricas.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                Métricas & Resultados
+            </a>
+            <a href="financeiro.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Planejamento Financeiro
+            </a>
+        </nav>
+
+        <div class="pt-4 border-t border-begeDark">
+            <a href="index.html" class="w-full bg-vibrante hover:bg-bordo text-white font-medium py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition duration-200 font-accent text-xs">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Novo Conteúdo
+            </a>
+        </div>
+    </aside>
+
+    <!-- Cabeçalho Mobile -->
+    <header class="md:hidden bg-white border-b border-begeDark p-4 flex items-center justify-between sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+            <div class="text-xl">🕯️</div>
+            <div>
+                <h1 class="font-bold text-base text-bordo leading-tight font-title">Mural Cazinha</h1>
+                <div class="text-[10px] text-green-600 flex items-center gap-1 font-medium font-accent">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Sincronizado
+                </div>
+            </div>
+        </div>
+        <a href="index.html" class="bg-vibrante text-white p-2 rounded-xl shadow text-xs font-accent">
+            + Post
+        </a>
+    </header>
+
+    <!-- Navegação Inferior (Mobile) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-begeDark px-2 py-2 flex justify-around items-center z-30 shadow-lg overflow-x-auto">
+        <a href="index.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Kanban</span>
+        </a>
+        <a href="pedidos.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Pedidos</span>
+        </a>
+        <a href="mural.html" class="flex flex-col items-center gap-1 text-bordo px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Mural</span>
+        </a>
+        <a href="estrategia.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
+            <span class="text-[9px] font-medium font-accent">SEO</span>
+        </a>
+        <a href="metricas.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Métricas</span>
+        </a>
+        <a href="financeiro.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Financeiro</span>
+        </a>
+    </nav>
+
+    <!-- Área Principal de Conteúdo -->
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+
+        <!-- MURAL DA MARCA -->
+        <section id="tab-brandmural" class="space-y-6">
+            <div class="bg-gradient-to-r from-bordo to-vibrante p-5 rounded-2xl text-white shadow-md space-y-3">
+                <div class="flex justify-between items-center border-b border-white/20 pb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">🎯</span>
+                        <h3 class="font-bold text-sm uppercase tracking-wide font-title">Bússola de Objetivos & Campanha Ativa</h3>
+                    </div>
+                    <button onclick="toggleBrandGoalsExpand()" id="btn-toggle-goals" class="text-xs bg-white/20 hover:bg-white/30 px-2.5 py-1 rounded-lg font-semibold transition font-accent">
+                        ✏️ Editar Objetivos
+                    </button>
+                </div>
+
+                <div id="view-brand-goals" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-black/15 p-3 rounded-xl border border-white/10 space-y-1">
+                        <span class="text-[10px] font-bold uppercase text-amber-200 font-accent">📌 Objetivos Principais da Marca:</span>
+                        <p id="display-brand-goals" class="font-medium whitespace-pre-line leading-relaxed">Nenhum objetivo cadastrado ainda. Clique em 'Editar Objetivos' para definir!</p>
+                    </div>
+                    <div class="bg-black/15 p-3 rounded-xl border border-white/10 space-y-1">
+                        <span class="text-[10px] font-bold uppercase text-amber-200 font-accent">🚀 Campanha / Foco do Mês:</span>
+                        <p id="display-brand-campaign" class="font-bold text-sm text-white font-title">Nenhuma campanha ativa no momento.</p>
+                        <p id="display-brand-campaign-notes" class="text-[11px] text-amber-100/90 whitespace-pre-line mt-1 font-accent"></p>
+                    </div>
+                </div>
+
+                <div id="form-brand-goals" class="hidden space-y-3 pt-2 text-xs">
+                    <div>
+                        <label class="block font-bold mb-1 text-amber-200 font-accent">Objetivos Gerais / Trimestrais da Cazinha:</label>
+                        <textarea id="input-brand-goals" rows="2" class="w-full p-2.5 rounded-xl text-gray-800 text-xs focus:outline-none" placeholder="Ex: Fortalecer a presença em Reels..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1 text-amber-200 font-accent">Campanha Ativa do Mês:</label>
+                        <input type="text" id="input-brand-campaign" class="w-full p-2 rounded-xl text-gray-800 text-xs focus:outline-none" placeholder="Ex: Lançamento Coleção Primavera">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1 text-amber-200 font-accent">Observações da Campanha Ativa:</label>
+                        <textarea id="input-brand-campaign-notes" rows="2" class="w-full p-2.5 rounded-xl text-gray-800 text-xs focus:outline-none" placeholder="Ex: Focar nos stories de bastidores..."></textarea>
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <button onclick="saveBrandGoals()" class="bg-white text-bordo font-bold px-4 py-1.5 rounded-xl shadow hover:bg-bege text-xs font-accent">Salvar Objetivos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-bordo font-title">Mural de Anotações & Checklists</h2>
+                    <p class="text-sm text-gray-500">Caderno livre para pensamentos, tarefas rápidas e lembretes operacionais</p>
+                </div>
+                
+                <div class="flex items-center gap-1 bg-white p-1 rounded-xl border border-begeDark text-xs font-accent">
+                    <button onclick="filterBrandMural('ALL')" id="mural-filter-ALL" class="px-3 py-1.5 rounded-lg font-bold bg-bege text-bordo">Todas</button>
+                    <button onclick="filterBrandMural('NOTE')" id="mural-filter-NOTE" class="px-3 py-1.5 rounded-lg font-medium text-gray-500">Notas Livres</button>
+                    <button onclick="filterBrandMural('CHECKLIST')" id="mural-filter-CHECKLIST" class="px-3 py-1.5 rounded-lg font-medium text-gray-500">Checklists</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-begeDark space-y-4 shadow-sm">
+                <div class="flex items-center gap-4 border-b border-begeDark pb-2 text-xs font-bold text-bordo font-accent">
+                    <label class="flex items-center gap-1.5 cursor-pointer">
+                        <input type="radio" name="note-type" value="NOTE" checked onchange="toggleNoteTypeInput()" class="accent-bordo"> 📝 Nota / Insight Livre
+                    </label>
+                    <label class="flex items-center gap-1.5 cursor-pointer">
+                        <input type="radio" name="note-type" value="CHECKLIST" onchange="toggleNoteTypeInput()" class="accent-bordo"> ☑️ Lista de Afazeres (Checklist)
+                    </label>
+                </div>
+
+                <div class="space-y-3">
+                    <input type="text" id="brand-note-title" class="w-full px-3 py-2 rounded-xl border border-begeDark text-xs font-bold focus:outline-none font-title" placeholder="Título...">
+                    
+                    <div id="field-note-text">
+                        <textarea id="brand-note-text" rows="2" class="w-full p-3 rounded-xl border border-begeDark text-xs focus:ring-2 focus:ring-vibrante focus:outline-none" placeholder="Digite seu pensamento solto aqui..."></textarea>
+                    </div>
+
+                    <div id="field-checklist-items" class="hidden space-y-2">
+                        <p class="text-[10px] font-bold text-gray-500 uppercase font-accent">Itens da Lista (digite um item por linha):</p>
+                        <textarea id="brand-checklist-text" rows="3" class="w-full p-3 rounded-xl border border-begeDark text-xs focus:ring-2 focus:ring-vibrante focus:outline-none" placeholder="Comprar cera vegetal&#10;Imprimir etiquetas"></textarea>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
+                        <div class="flex flex-wrap items-center gap-3 text-xs">
+                            <div>
+                                <span class="text-[10px] font-bold text-gray-600 uppercase block font-accent">Data Limite:</span>
+                                <input type="date" id="brand-note-duedate" class="px-2.5 py-1 rounded-lg border border-begeDark text-xs">
+                            </div>
+
+                            <div>
+                                <span class="text-[10px] font-bold text-gray-600 uppercase block font-accent">Categorias:</span>
+                                <div class="flex flex-wrap gap-1.5 text-[11px] font-accent">
+                                    <label class="flex items-center gap-1 bg-bege px-2 py-0.5 rounded border border-begeDark cursor-pointer">
+                                        <input type="checkbox" name="brand-note-cat" value="Produtos" class="accent-bordo"> 📦 Produtos
+                                    </label>
+                                    <label class="flex items-center gap-1 bg-bege px-2 py-0.5 rounded border border-begeDark cursor-pointer">
+                                        <input type="checkbox" name="brand-note-cat" value="Lembretes" class="accent-bordo"> 📌 Lembretes
+                                    </label>
+                                    <label class="flex items-center gap-1 bg-bege px-2 py-0.5 rounded border border-begeDark cursor-pointer">
+                                        <input type="checkbox" name="brand-note-cat" value="Inspirações" class="accent-bordo"> ✨ Inspirações
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="addBrandNote()" class="bg-vibrante hover:bg-bordo text-white font-semibold text-xs py-2.5 px-5 rounded-xl transition shadow font-accent">Salvar no Mural</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="brand-notes-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+        </section>
+
+    </main>
+
+    <!-- SCRIPT DA APLICAÇÃO COM FIREBASE -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtIr-5hhOKmGawG2Xhw2vIqRtNUivm4Cc",
+            authDomain: "social-media-planner-cazinha.firebaseapp.com",
+            projectId: "social-media-planner-cazinha",
+            storageBucket: "social-media-planner-cazinha.firebasestorage.app",
+            messagingSenderId: "413095194883",
+            appId: "1:413095194883:web:80a7276e96989e18083936"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let brandNotes = [];
+        let brandGoalsData = { goals: '', campaign: '', campaignNotes: '' };
+        let currentMuralFilter = 'ALL';
+
+        db.collection("settings").doc("brand_goals").onSnapshot((doc) => {
+            if (doc.exists) {
+                brandGoalsData = doc.data();
+                renderBrandGoals();
+            }
+        });
+
+        db.collection("brand_notes").onSnapshot((snapshot) => {
+            brandNotes = [];
+            snapshot.forEach((doc) => {
+                brandNotes.push({ id: doc.id, ...doc.data() });
+            });
+            renderBrandNotes();
+        });
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const parts = dateStr.split('-');
+            return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : dateStr;
+        }
+
+        function toggleBrandGoalsExpand() {
+            const form = document.getElementById('form-brand-goals');
+            const isHidden = form.classList.contains('hidden');
+            form.classList.toggle('hidden', !isHidden);
+
+            if (isHidden) {
+                document.getElementById('input-brand-goals').value = brandGoalsData.goals || '';
+                document.getElementById('input-brand-campaign').value = brandGoalsData.campaign || '';
+                document.getElementById('input-brand-campaign-notes').value = brandGoalsData.campaignNotes || '';
+            }
+        }
+
+        function saveBrandGoals() {
+            const goals = document.getElementById('input-brand-goals').value.trim();
+            const campaign = document.getElementById('input-brand-campaign').value.trim();
+            const campaignNotes = document.getElementById('input-brand-campaign-notes').value.trim();
+
+            db.collection("settings").doc("brand_goals").set({
+                goals: goals,
+                campaign: campaign,
+                campaignNotes: campaignNotes,
+                updatedAt: new Date().toISOString()
+            });
+
+            document.getElementById('form-brand-goals').classList.add('hidden');
+        }
+
+        function renderBrandGoals() {
+            const goalsEl = document.getElementById('display-brand-goals');
+            const campaignEl = document.getElementById('display-brand-campaign');
+            const campaignNotesEl = document.getElementById('display-brand-campaign-notes');
+
+            if (goalsEl) goalsEl.innerText = brandGoalsData.goals || "Nenhum objetivo cadastrado ainda.";
+            if (campaignEl) campaignEl.innerText = brandGoalsData.campaign ? `🚀 ${brandGoalsData.campaign}` : "Nenhuma campanha ativa no momento.";
+            if (campaignNotesEl) campaignNotesEl.innerText = brandGoalsData.campaignNotes ? `💡 ${brandGoalsData.campaignNotes}` : "";
+        }
+
+        function toggleNoteTypeInput() {
+            const isChecklist = document.querySelector('input[name="note-type"]:checked').value === 'CHECKLIST';
+            document.getElementById('field-note-text').classList.toggle('hidden', isChecklist);
+            document.getElementById('field-checklist-items').classList.toggle('hidden', !isChecklist);
+        }
+
+        function filterBrandMural(type) {
+            currentMuralFilter = type;
+            ['ALL', 'NOTE', 'CHECKLIST'].forEach(t => {
+                const btn = document.getElementById(`mural-filter-${t}`);
+                if (btn) {
+                    btn.className = t === type 
+                        ? "px-3 py-1.5 rounded-lg font-bold bg-bege text-bordo font-accent" 
+                        : "px-3 py-1.5 rounded-lg font-medium text-gray-500 font-accent";
+                }
+            });
+            renderBrandNotes();
+        }
+
+        function addBrandNote() {
+            const title = document.getElementById('brand-note-title').value.trim();
+            const noteType = document.querySelector('input[name="note-type"]:checked').value;
+            const dueDate = document.getElementById('brand-note-duedate').value;
+
+            const selectedCats = [];
+            document.querySelectorAll('input[name="brand-note-cat"]:checked').forEach(cb => selectedCats.push(cb.value));
+
+            if (noteType === 'NOTE') {
+                const text = document.getElementById('brand-note-text').value.trim();
+                if (!text) { alert("Digite o conteúdo da anotação."); return; }
+
+                db.collection("brand_notes").add({
+                    type: 'NOTE',
+                    title: title || 'Anotação',
+                    text: text,
+                    dueDate: dueDate,
+                    categories: selectedCats.length > 0 ? selectedCats : ['Geral'],
+                    createdAt: new Date().toISOString()
+                });
+            } else {
+                const rawItems = document.getElementById('brand-checklist-text').value.trim().split('\n');
+                const items = rawItems.filter(i => i.trim() !== '').map((itemText, idx) => ({
+                    id: idx.toString(),
+                    text: itemText.trim(),
+                    done: false
+                }));
+
+                if (items.length === 0) { alert("Digite ao menos um item para o checklist."); return; }
+
+                db.collection("brand_notes").add({
+                    type: 'CHECKLIST',
+                    title: title || 'Lista de Afazeres',
+                    items: items,
+                    dueDate: dueDate,
+                    categories: selectedCats.length > 0 ? selectedCats : ['Geral'],
+                    createdAt: new Date().toISOString()
+                });
+            }
+
+            document.getElementById('brand-note-title').value = '';
+            document.getElementById('brand-note-text').value = '';
+            document.getElementById('brand-checklist-text').value = '';
+            document.getElementById('brand-note-duedate').value = '';
+            document.querySelectorAll('input[name="brand-note-cat"]').forEach(cb => cb.checked = false);
+        }
+
+        function toggleChecklistItem(noteId, itemId) {
+            const note = brandNotes.find(n => n.id === noteId);
+            if (!note || !note.items) return;
+
+            const updatedItems = note.items.map(item => {
+                if (item.id === itemId) return { ...item, done: !item.done };
+                return item;
+            });
+
+            db.collection("brand_notes").doc(noteId).update({ items: updatedItems });
+        }
+
+        function deleteBrandNote(id) {
+            if (confirm("Deseja mesmo remover do mural?")) {
+                db.collection("brand_notes").doc(id).delete();
+            }
+        }
+
+        function renderBrandNotes() {
+            const grid = document.getElementById('brand-notes-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            const filtered = brandNotes.filter(n => {
+                if (currentMuralFilter === 'ALL') return true;
+                return (n.type || 'NOTE') === currentMuralFilter;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p class="text-xs text-gray-400 col-span-3 text-center py-6 font-accent">Seu mural está vazio para esse filtro.</p>';
+                return;
+            }
+
+            filtered.forEach(note => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-2xl border border-begeDark shadow-2xs space-y-3 flex flex-col justify-between";
+
+                const catBadges = (note.categories || ['Geral']).map(c => `<span class="text-[9px] font-bold px-2 py-0.5 rounded-md bg-bege text-bordo border border-begeDark font-accent">${c}</span>`).join(' ');
+                const formattedDueDate = note.dueDate ? formatDate(note.dueDate) : '';
+
+                let contentHTML = '';
+
+                if (note.type === 'CHECKLIST' && note.items) {
+                    const pending = note.items.filter(i => !i.done);
+                    const completed = note.items.filter(i => i.done);
+                    const total = note.items.length;
+                    const percent = total > 0 ? Math.round((completed.length / total) * 100) : 0;
+
+                    let pendingHTML = pending.map(i => 
+                        `<label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" onchange="toggleChecklistItem('${note.id}', '${i.id}')" class="accent-bordo"> <span>${i.text}</span></label>`
+                    ).join('');
+
+                    let completedHTML = completed.map(i => 
+                        `<label class="flex items-center gap-2 text-xs cursor-pointer line-through-task"><input type="checkbox" checked onchange="toggleChecklistItem('${note.id}', '${i.id}')" class="accent-bordo"> <span>${i.text}</span></label>`
+                    ).join('');
+
+                    contentHTML = 
+                        `<div class="space-y-1 font-accent">` +
+                            `<div class="flex justify-between items-center text-[10px] text-gray-500 font-bold mb-1"><span>Progresso</span><span>${completed.length}/${total} (${percent}%)</span></div>` +
+                            `<div class="w-full bg-bege h-1.5 rounded-full overflow-hidden mb-2"><div class="bg-vibrante h-full" style="width: ${percent}%"></div></div>` +
+                        `</div>` +
+                        `<div class="space-y-1.5">${pendingHTML}</div>` +
+                        (completed.length > 0 ? 
+                            `<details class="pt-2 text-[11px] text-gray-400 border-t border-begeDark/40"><summary class="cursor-pointer font-semibold font-accent">Concluídos (${completed.length})</summary><div class="space-y-1 mt-1 font-normal">${completedHTML}</div></details>` 
+                            : '');
+                } else {
+                    contentHTML = `<p class="text-xs text-gray-800 whitespace-pre-line leading-relaxed font-medium">${note.text || ''}</p>`;
+                }
+
+                card.innerHTML = 
+                    `<div class="space-y-2">` +
+                        `<div class="flex items-center justify-between"><div class="flex flex-wrap gap-1">${catBadges}</div> ${formattedDueDate ? `<span class="text-[9px] font-bold text-vibrante font-accent">⏰ ${formattedDueDate}</span>` : ''}</div>` +
+                        `<h4 class="font-bold text-xs text-bordo font-title">${note.title || 'Anotação'}</h4>` +
+                        `${contentHTML}` +
+                    `</div>` +
+                    `<div class="pt-2 border-t border-begeDark/50 flex items-center justify-end text-[10px] font-accent">` +
+                        `<button onclick="deleteBrandNote('${note.id}')" class="text-gray-400 hover:text-vibrante">Excluir</button>` +
+                    `</div>`;
+
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
