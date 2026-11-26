@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estratégia & SEO - Cazinha</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏡</text></svg>">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fraunces, Poppins, Comfortaa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bordo: '#8C1D24',
+                        vibrante: '#D92B2B',
+                        pink: '#E63988',
+                        rosa: '#F265A1',
+                        bege: '#F7F2E7',
+                        begeDark: '#EFE8D8',
+                        amarelo: '#FFCA3A',
+                        verde: '#8AC926',
+                        azul: '#19B5FE'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        title: ['Fraunces', 'serif'],
+                        accent: ['Comfortaa', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F7F2E7;
+            font-family: 'Poppins', sans-serif;
+            padding-bottom: 80px;
+        }
+        h1, h2, h3, h4, .font-title {
+            font-family: 'Fraunces', serif;
+        }
+        .font-accent {
+            font-family: 'Comfortaa', cursive;
+        }
+        @media (min-width: 768px) {
+            body { padding-bottom: 0; }
+        }
+    </style>
+</head>
+<body class="text-gray-800 min-h-screen flex flex-col md:flex-row">
+
+    <!-- Barra Lateral (Desktop) -->
+    <aside class="hidden md:flex flex-col w-64 bg-white border-r border-begeDark p-6 flex-shrink-0 min-h-screen sticky top-0 h-screen overflow-y-auto">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="text-2xl">🕯️</div>
+            <div>
+                <h1 class="font-bold text-lg text-bordo leading-tight font-title">Planner Cazinha</h1>
+                <p class="text-xs text-rosa font-semibold font-accent">Social Media & Estratégia</p>
+            </div>
+        </div>
+
+        <!-- Status do Firebase -->
+        <div class="mb-6 px-3 py-2 rounded-lg bg-green-50 text-green-700 text-xs flex items-center gap-2 border border-green-200 font-accent">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span>Nuvem Ativa (Firebase)</span>
+        </div>
+
+        <nav class="space-y-1.5 flex-1">
+            <a href="index.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Planejador (Kanban)
+            </a>
+            <a href="pedidos.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                Pedidos & Encomendas
+            </a>
+            <a href="mural.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                Mural da Marca
+            </a>
+            <a href="estrategia.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-bordo bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
+                Estratégia & SEO
+            </a>
+            <a href="metricas.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                Métricas & Resultados
+            </a>
+            <a href="financeiro.html" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition text-gray-500 hover:bg-bege">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Planejamento Financeiro
+            </a>
+        </nav>
+
+        <div class="pt-4 border-t border-begeDark">
+            <a href="index.html" class="w-full bg-vibrante hover:bg-bordo text-white font-medium py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition duration-200 font-accent text-xs">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Novo Conteúdo
+            </a>
+        </div>
+    </aside>
+
+    <!-- Cabeçalho Mobile -->
+    <header class="md:hidden bg-white border-b border-begeDark p-4 flex items-center justify-between sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+            <div class="text-xl">🕯️</div>
+            <div>
+                <h1 class="font-bold text-base text-bordo leading-tight font-title">Estratégia Cazinha</h1>
+                <div class="text-[10px] text-green-600 flex items-center gap-1 font-medium font-accent">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Sincronizado
+                </div>
+            </div>
+        </div>
+        <a href="index.html" class="bg-vibrante text-white p-2 rounded-xl shadow text-xs font-accent">
+            + Post
+        </a>
+    </header>
+
+    <!-- Navegação Inferior (Mobile) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-begeDark px-2 py-2 flex justify-around items-center z-30 shadow-lg overflow-x-auto">
+        <a href="index.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Kanban</span>
+        </a>
+        <a href="pedidos.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Pedidos</span>
+        </a>
+        <a href="mural.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Mural</span>
+        </a>
+        <a href="estrategia.html" class="flex flex-col items-center gap-1 text-bordo px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
+            <span class="text-[9px] font-medium font-accent">SEO</span>
+        </a>
+        <a href="metricas.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Métricas</span>
+        </a>
+        <a href="financeiro.html" class="flex flex-col items-center gap-1 text-gray-400 px-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="text-[9px] font-medium font-accent">Financeiro</span>
+        </a>
+    </nav>
+
+    <!-- Toast de Cópia Rápida -->
+    <div id="copy-toast" class="fixed bottom-20 md:bottom-6 right-6 bg-bordo text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-lg hidden z-50 font-accent">
+        📋 Copiado para a área de transferência!
+    </div>
+
+    <!-- Área Principal de Conteúdo -->
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+
+        <!-- ESTRATÉGIA & SEO -->
+        <section id="tab-seo" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-bordo font-title">Estratégia, Hashtags & SEO</h2>
+                    <p class="text-sm text-gray-500">Organize conjuntos por pilar/objetivo, importe listas ou CSV do Google Trends e copie com 1 clique</p>
+                </div>
+            </div>
+
+            <!-- Bloco 1: Conjuntos Principais (Compatível com settings/seo_tags) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Hashtags Principais -->
+                <div class="bg-white p-6 rounded-2xl border border-begeDark space-y-4 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-bordo flex items-center gap-2 font-title">
+                            <span class="bg-vibrante text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-accent">#</span>
+                            Hashtags Principais
+                        </h3>
+                        <button onclick="copyFieldValue('seo-hashtags')" class="text-xs bg-bege hover:bg-begeDark text-bordo font-semibold px-3 py-1 rounded-lg transition font-accent">
+                            📋 Copiar Tudo
+                        </button>
+                    </div>
+                    <textarea id="seo-hashtags" rows="3" class="w-full p-3 rounded-xl border border-begeDark text-xs focus:ring-2 focus:ring-vibrante focus:outline-none" placeholder="#velasaromaticas #decoracaocriativa #cazinha..."></textarea>
+                    <button onclick="saveSeo()" class="w-full bg-bordo hover:bg-vibrante text-white font-semibold text-xs py-2.5 rounded-xl transition font-accent">Salvar Hashtags Principais</button>
+                </div>
+
+                <!-- Palavras-Chave Principais -->
+                <div class="bg-white p-6 rounded-2xl border border-begeDark space-y-4 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-bordo flex items-center gap-2 font-title">
+                            <span class="bg-pink text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-accent">🔍</span>
+                            Palavras-Chave Principais (SEO)
+                        </h3>
+                        <button onclick="copyFieldValue('seo-keywords')" class="text-xs bg-bege hover:bg-begeDark text-bordo font-semibold px-3 py-1 rounded-lg transition font-accent">
+                            📋 Copiar Tudo
+                        </button>
+                    </div>
+                    <textarea id="seo-keywords" rows="3" class="w-full p-3 rounded-xl border border-begeDark text-xs focus:ring-2 focus:ring-pink focus:outline-none" placeholder="vela artesanal, presente criativo, aroma para casa..."></textarea>
+                    <button onclick="saveSeo()" class="w-full bg-pink hover:bg-rosa text-white font-semibold text-xs py-2.5 rounded-xl transition font-accent">Salvar Palavras-Chave Principais</button>
+                </div>
+            </div>
+
+            <!-- Bloco 2: Banco Organizado por Pilar / Objetivo / Campanha + Importação Rápida -->
+            <div class="bg-white p-6 rounded-2xl border border-begeDark shadow-sm space-y-5">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-begeDark pb-3">
+                    <div>
+                        <h3 class="font-bold text-bordo text-base font-title">📚 Banco Estratégico por Pilar & Objetivo</h3>
+                        <p class="text-xs text-gray-500">Crie grupos prontos para copiar na hora de postar ou importe termos de uma lista / CSV do Google Trends</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 font-accent">
+                        <label class="bg-bege hover:bg-begeDark text-bordo font-semibold text-xs px-3.5 py-2 rounded-xl border border-begeDark cursor-pointer transition flex items-center gap-1.5">
+                            <span>📄</span> Importar CSV (Trends / Lista)
+                            <input type="file" id="seo-csv-input" accept=".csv,.txt" onchange="importSeoCsvFile(this.files[0])" class="hidden">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Formulário de Novo Grupo ou Importação por Texto -->
+                <div class="bg-bege/40 p-4 rounded-2xl border border-begeDark space-y-3">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-600 uppercase mb-1 font-accent">Nome do Conjunto / Campanha</label>
+                            <input type="text" id="bank-title" class="w-full px-3 py-2 rounded-xl border border-begeDark text-xs bg-white font-semibold" placeholder="Ex: Lançamento Lavanda">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-600 uppercase mb-1 font-accent">Tipo</label>
+                            <select id="bank-type" class="w-full px-3 py-2 rounded-xl border border-begeDark text-xs bg-white">
+                                <option value="Hashtags">Hashtags (#)</option>
+                                <option value="Palavras-Chave">Palavras-Chave (SEO)</option>
+                                <option value="Trends / Pesquisa">Tendências / Pesquisa</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-600 uppercase mb-1 font-accent">Pilar Relacionado</label>
+                            <select id="bank-pillar" class="w-full px-3 py-2 rounded-xl border border-begeDark text-xs bg-white">
+                                <option value="Geral">Geral</option>
+                                <option value="Produto">Produto</option>
+                                <option value="Bastidores">Bastidores</option>
+                                <option value="Educativo / Dicas">Educativo / Dicas</option>
+                                <option value="Lifestyle / Aconchego">Lifestyle / Aconchego</option>
+                                <option value="Prova Social">Prova Social</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-600 uppercase mb-1 font-accent">Objetivo</label>
+                            <select id="bank-goal" class="w-full px-3 py-2 rounded-xl border border-begeDark text-xs bg-white">
+                                <option value="Todos">Todos</option>
+                                <option value="Alcance / Descoberta">Alcance / Descoberta</option>
+                                <option value="Engajamento">Engajamento</option>
+                                <option value="Conversão / Vendas">Conversão / Vendas</option>
+                                <option value="Autoridade">Autoridade</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-600 uppercase mb-1 font-accent">Termos / Hashtags (separe por vírgula, espaço ou quebra de linha)</label>
+                        <textarea id="bank-terms" rows="2" class="w-full p-2.5 rounded-xl border border-begeDark text-xs bg-white focus:outline-none focus:ring-2 focus:ring-vibrante" placeholder="Cole aqui uma lista ou termos do Google Trends..."></textarea>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button onclick="addSeoBankGroup()" class="bg-vibrante hover:bg-bordo text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition shadow font-accent">
+                            + Salvar Conjunto no Banco
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros do Banco -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <input type="text" id="bank-search" oninput="renderSeoBank()" placeholder="🔍 Filtrar termo ou conjunto..." class="px-3 py-1.5 text-xs rounded-xl border border-begeDark bg-bege/30 focus:outline-none w-56">
+                        <select id="bank-filter-pillar" onchange="renderSeoBank()" class="px-3 py-1.5 text-xs rounded-xl border border-begeDark bg-bege/30">
+                            <option value="ALL">Todos os Pilares</option>
+                            <option value="Geral">Geral</option>
+                            <option value="Produto">Produto</option>
+                            <option value="Bastidores">Bastidores</option>
+                            <option value="Educativo / Dicas">Educativo / Dicas</option>
+                            <option value="Lifestyle / Aconchego">Lifestyle / Aconchego</option>
+                            <option value="Prova Social">Prova Social</option>
+                        </select>
+                        <select id="bank-filter-type" onchange="renderSeoBank()" class="px-3 py-1.5 text-xs rounded-xl border border-begeDark bg-bege/30">
+                            <option value="ALL">Todos os Tipos</option>
+                            <option value="Hashtags">Hashtags (#)</option>
+                            <option value="Palavras-Chave">Palavras-Chave (SEO)</option>
+                            <option value="Trends / Pesquisa">Tendências / Pesquisa</option>
+                        </select>
+                    </div>
+                    <span id="bank-count-label" class="text-[11px] text-gray-500 font-accent">0 conjuntos salvos</span>
+                </div>
+
+                <!-- Grade de Conjuntos Salvos -->
+                <div id="seo-bank-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- Bloco 3: Cruzamento com Posts Cadastrados -->
+            <div class="bg-white p-6 rounded-2xl border border-begeDark shadow-sm space-y-3">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-begeDark pb-2">
+                    <div>
+                        <h3 class="font-bold text-bordo text-sm font-title">🔗 Termos Mais Usados nos Seus Posts (Firestore)</h3>
+                        <p class="text-[11px] text-gray-500">Leitura automática dos títulos, legendas e tags dos seus posts salvos</p>
+                    </div>
+                    <span id="posts-analyzed-badge" class="text-[10px] bg-bege text-bordo font-bold px-2.5 py-1 rounded-full font-accent">0 posts analisados</span>
+                </div>
+                <div id="used-tags-cloud" class="flex flex-wrap gap-2 pt-1">
+                    <span class="text-xs text-gray-400 italic">Carregando posts...</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SCRIPT DA APLICAÇÃO COM FIREBASE -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtIr-5hhOKmGawG2Xhw2vIqRtNUivm4Cc",
+            authDomain: "social-media-planner-cazinha.firebaseapp.com",
+            projectId: "social-media-planner-cazinha",
+            storageBucket: "social-media-planner-cazinha.firebasestorage.app",
+            messagingSenderId: "413095194883",
+            appId: "1:413095194883:web:80a7276e96989e18083936"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let seoData = { hashtags: '', keywords: '' };
+        let seoBank = [];
+        let posts = [];
+
+        // Mantém compatibilidade total com settings/seo_tags
+        db.collection("settings").doc("seo_tags").onSnapshot((doc) => {
+            if (doc.exists) {
+                seoData = doc.data();
+                document.getElementById('seo-hashtags').value = seoData.hashtags || '';
+                document.getElementById('seo-keywords').value = seoData.keywords || '';
+            }
+        });
+
+        // Banco organizado de conjuntos SEO / Hashtags
+        db.collection("seo_bank").onSnapshot((snapshot) => {
+            seoBank = [];
+            snapshot.forEach((doc) => {
+                seoBank.push({ id: doc.id, ...doc.data() });
+            });
+            renderSeoBank();
+        });
+
+        // Cruzamento com os posts existentes
+        db.collection("posts").onSnapshot((snapshot) => {
+            posts = [];
+            snapshot.forEach((doc) => {
+                posts.push({ id: doc.id, ...doc.data() });
+            });
+            renderSeoBank();
+            renderUsedTagsFromPosts();
+        });
+
+        function showCopyToast(message = '📋 Copiado para a área de transferência!') {
+            const toast = document.getElementById('copy-toast');
+            toast.innerText = message;
+            toast.classList.remove('hidden');
+            clearTimeout(window._copyToastTimer);
+            window._copyToastTimer = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2200);
+        }
+
+        function copyText(text, label = 'Copiado!') {
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyToast(`📋 ${label}`);
+            });
+        }
+
+        function copyFieldValue(elementId) {
+            const val = document.getElementById(elementId)?.value?.trim();
+            if (!val) {
+                alert("O campo está vazio.");
+                return;
+            }
+            copyText(val, 'Conjunto copiado!');
+        }
+
+        function saveSeo() {
+            const hashtags = document.getElementById('seo-hashtags').value;
+            const keywords = document.getElementById('seo-keywords').value;
+            db.collection("settings").doc("seo_tags").set({
+                hashtags,
+                keywords,
+                updatedAt: new Date().toISOString()
+            }).then(() => {
+                showCopyToast('✅ Estratégia principal salva na nuvem!');
+            });
+        }
+
+        function normalizeTerms(rawText, type) {
+            const pieces = rawText
+                .split(/[\n,;]+/)
+                .flatMap(chunk => type === 'Hashtags' ? chunk.split(/\s+/) : [chunk])
+                .map(t => t.trim())
+                .filter(Boolean);
+
+            const unique = [];
+            const seen = new Set();
+
+            pieces.forEach(item => {
+                let formatted = item;
+                if (type === 'Hashtags' && !formatted.startsWith('#')) {
+                    formatted = '#' + formatted.replace(/^#+/, '');
+                }
+                const key = formatted.toLowerCase();
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    unique.push(formatted);
+                }
+            });
+
+            return unique;
+        }
+
+        function addSeoBankGroup() {
+            const title = document.getElementById('bank-title').value.trim();
+            const type = document.getElementById('bank-type').value;
+            const pillar = document.getElementById('bank-pillar').value;
+            const goal = document.getElementById('bank-goal').value;
+            const rawTerms = document.getElementById('bank-terms').value.trim();
+
+            if (!rawTerms) {
+                alert("Digite ou cole ao menos um termo ou hashtag.");
+                return;
+            }
+
+            const terms = normalizeTerms(rawTerms, type);
+
+            db.collection("seo_bank").add({
+                title: title || `${type} - ${pillar}`,
+                type,
+                pillar,
+                goal,
+                terms,
+                createdAt: new Date().toISOString()
+            }).then(() => {
+                document.getElementById('bank-title').value = '';
+                document.getElementById('bank-terms').value = '';
+                showCopyToast('✅ Conjunto adicionado ao banco!');
+            });
+        }
+
+        function deleteSeoBankGroup(id) {
+            if (confirm("Deseja remover este conjunto do banco?")) {
+                db.collection("seo_bank").doc(id).delete();
+            }
+        }
+
+        // Importa arquivo CSV/TXT (como exportação do Google Trends) sem salvar o arquivo no servidor
+        function importSeoCsvFile(file) {
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target?.result || '';
+                const lines = content.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+
+                const extractedTerms = [];
+                lines.forEach(line => {
+                    // Ignora cabeçalhos comuns de exportação do Google Trends
+                    if (/^(categoria|category|termo|query|top|rising|principais|em ascens[ãa]o|semana|week|m[êe]s|month)/i.test(line)) {
+                        return;
+                    }
+                    const firstCol = line.split(/[,;\t]/)[0].replace(/^"|"$/g, '').trim();
+                    if (firstCol && firstCol.length > 1 && isNaN(Number(firstCol))) {
+                        extractedTerms.push(firstCol);
+                    }
+                });
+
+                // Limpa o input imediatamente para não manter referência do arquivo
+                document.getElementById('seo-csv-input').value = '';
+
+                if (extractedTerms.length === 0) {
+                    alert("Não foi possível identificar termos válidos nesse arquivo.");
+                    return;
+                }
+
+                const uniqueTerms = [...new Set(extractedTerms)].slice(0, 60);
+                document.getElementById('bank-title').value = file.name.replace(/\.[^/.]+$/, '');
+                document.getElementById('bank-type').value = 'Trends / Pesquisa';
+                document.getElementById('bank-terms').value = uniqueTerms.join(', ');
+                showCopyToast(`📄 ${uniqueTerms.length} termos carregados! Revise e clique em Salvar.`);
+            };
+
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function countTermUsageInPosts(term) {
+            const needle = term.toLowerCase();
+            let count = 0;
+            posts.forEach(p => {
+                const haystack = [
+                    p.title || '',
+                    p.caption || '',
+                    p.description || '',
+                    p.hashtags || '',
+                    p.keywords || '',
+                    p.notes || ''
+                ].join(' ').toLowerCase();
+
+                if (haystack.includes(needle)) count++;
+            });
+            return count;
+        }
+
+        function renderSeoBank() {
+            const grid = document.getElementById('seo-bank-grid');
+            const countLabel = document.getElementById('bank-count-label');
+            if (!grid) return;
+
+            const search = (document.getElementById('bank-search')?.value || '').toLowerCase();
+            const pillarFilter = document.getElementById('bank-filter-pillar')?.value || 'ALL';
+            const typeFilter = document.getElementById('bank-filter-type')?.value || 'ALL';
+
+            const filtered = seoBank.filter(item => {
+                if (pillarFilter !== 'ALL' && item.pillar !== pillarFilter) return false;
+                if (typeFilter !== 'ALL' && item.type !== typeFilter) return false;
+                if (search) {
+                    const inTitle = (item.title || '').toLowerCase().includes(search);
+                    const inTerms = (item.terms || []).some(t => t.toLowerCase().includes(search));
+                    if (!inTitle && !inTerms) return false;
+                }
+                return true;
+            });
+
+            if (countLabel) countLabel.innerText = `${filtered.length} conjunto(s) exibido(s)`;
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p class="text-xs text-gray-400 col-span-2 text-center py-6 font-accent">Nenhum conjunto encontrado. Adicione acima ou importe uma lista CSV.</p>`;
+                return;
+            }
+
+            filtered.forEach(group => {
+                const terms = group.terms || [];
+                const copyPayload = group.type === 'Hashtags' ? terms.join(' ') : terms.join(', ');
+
+                const chipsHtml = terms.map(term => {
+                    const usedCount = countTermUsageInPosts(term);
+                    const badge = usedCount > 0 ? ` <span class="text-[9px] font-bold text-vibrante">(${usedCount}x)</span>` : '';
+                    return `<button type="button" onclick="copyText('${term.replace(/'/g, "\\'")}', '${term.replace(/'/g, "\\'")} copiado!')" title="Clique para copiar este termo" class="text-[11px] bg-bege/70 hover:bg-begeDark text-gray-800 px-2.5 py-1 rounded-lg border border-begeDark/70 transition">${term}${badge}</button>`;
+                }).join(' ');
+
+                const card = document.createElement('div');
+                card.className = "bg-bege/20 p-4 rounded-2xl border border-begeDark flex flex-col justify-between space-y-3";
+                card.innerHTML = `
+                    <div class="space-y-2">
+                        <div class="flex items-start justify-between gap-2">
+                            <div>
+                                <div class="flex flex-wrap gap-1 mb-1 font-accent">
+                                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-bordo text-white">${group.type || 'SEO'}</span>
+                                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-white text-bordo border border-begeDark">${group.pillar || 'Geral'}</span>
+                                    ${group.goal && group.goal !== 'Todos' ? `<span class="text-[9px] font-bold px-2 py-0.5 rounded bg-pink/15 text-pink">${group.goal}</span>` : ''}
+                                </div>
+                                <h4 class="font-bold text-sm text-bordo font-title">${group.title || 'Conjunto SEO'}</h4>
+                            </div>
+                            <button type="button" onclick="copyText('${copyPayload.replace(/'/g, "\\'")}', 'Bloco copiado!')" class="text-[10px] bg-white hover:bg-bege text-bordo font-bold px-2.5 py-1.5 rounded-lg border border-begeDark shadow-2xs transition font-accent shrink-0">
+                                📋 Copiar Bloco
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">${chipsHtml}</div>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-begeDark/50 text-[10px] text-gray-400 font-accent">
+                        <span>${terms.length} termo(s) • Clique no termo para copiar</span>
+                        <button type="button" onclick="deleteSeoBankGroup('${group.id}')" class="hover:text-vibrante">Excluir</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderUsedTagsFromPosts() {
+            const container = document.getElementById('used-tags-cloud');
+            const badge = document.getElementById('posts-analyzed-badge');
+            if (!container) return;
+
+            if (badge) badge.innerText = `${posts.length} post(s) analisado(s)`;
+
+            const tagCounts = {};
+            posts.forEach(p => {
+                const text = [p.title || '', p.caption || '', p.description || '', p.hashtags || ''].join(' ');
+                const matches = text.match(/#[a-zA-Z0-9_À-ÿ]+/g) || [];
+                matches.forEach(tag => {
+                    const normalized = tag.toLowerCase();
+                    tagCounts[normalized] = (tagCounts[normalized] || 0) + 1;
+                });
+            });
+
+            const sorted = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 25);
+
+            if (sorted.length === 0) {
+                container.innerHTML = `<span class="text-xs text-gray-400 italic">Nenhuma hashtag encontrada nos posts cadastrados até o momento.</span>`;
+                return;
+            }
+
+            container.innerHTML = sorted.map(([tag, count]) => `
+                <button type="button" onclick="copyText('${tag}', '${tag} copiada!')" class="text-xs bg-bege hover:bg-begeDark text-bordo font-medium px-3 py-1 rounded-full border border-begeDark transition font-accent">
+                    ${tag} <span class="font-bold text-vibrante">(${count})</span>
+                </button>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
